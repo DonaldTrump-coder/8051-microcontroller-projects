@@ -1,0 +1,46 @@
+C51 COMPILER V9.54   UARTMESSAGE                                                           03/12/2025 20:53:22 PAGE 1   
+
+
+C51 COMPILER V9.54, COMPILATION OF MODULE UARTMESSAGE
+OBJECT MODULE PLACED IN .\Objects\UARTmessage.obj
+COMPILER INVOKED BY: F:\ApplicationFlies\Keil C51\C51\BIN\C51.EXE UARTmessage.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXT
+                    -END PRINT(.\Listings\UARTmessage.lst) OBJECT(.\Objects\UARTmessage.obj)
+
+line level    source
+
+   1          #include <REGX52.H>
+   2          #include "UARTmessage.h"
+   3          
+   4          void UART_init()
+   5          {
+   6   1              PCON |= 0x80;           //????????SMOD
+   7   1              SCON = 0x50;            //8???,?????
+   8   1              TMOD &= 0x0F;           //???????
+   9   1              TMOD |= 0x20;           //???????
+  10   1              TL1 = 0xF4;                     //???????
+  11   1              TH1 = 0xF4;                     //???????
+  12   1              ET1 = 0;                        //???????
+  13   1              TR1 = 1;                        //???1????
+  14   1              EA=1;
+  15   1              ES=1;
+  16   1      }
+  17          
+  18          void UART_Send(unsigned char num)
+  19          {
+  20   1              SBUF=num;
+  21   1              TI=0;
+  22   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     32    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
