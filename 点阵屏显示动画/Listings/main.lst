@@ -1,0 +1,55 @@
+C51 COMPILER V9.54   MAIN                                                                  03/16/2025 11:42:41 PAGE 1   
+
+
+C51 COMPILER V9.54, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN .\Objects\main.obj
+COMPILER INVOKED BY: F:\ApplicationFlies\Keil C51\C51\BIN\C51.EXE main.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRI
+                    -NT(.\Listings\main.lst) OBJECT(.\Objects\main.obj)
+
+line level    source
+
+   1          #include <REGX52.H>
+   2          #include "MatrixLED.h"
+   3          
+   4          unsigned char i;
+   5          unsigned char k;
+   6          unsigned char Animation[]={0xFF,0x10,0x10,0x10,0xFF,0x00,0x00,0x0E,0x15,0x15,0x0C,0x00,0x00,0x00,0xFF,0x01
+             -,
+   7          0x02,0x00,0x00,0xFF,0x01,0x02,0x00,0x00,0x0E,0x11,0x11,0x11,0x0E,0x00,0x00,0xFD};
+   8          
+   9          void main()
+  10          {
+  11   1              MatrixLED_init();
+  12   1              for(i=1;i<=25;i++)
+  13   1              {
+  14   2                      k=0;
+  15   2                      while(k<8)
+  16   2                      {
+  17   3                              MatrixLED_showcolumn(1,Animation[i-1]);
+  18   3                              MatrixLED_showcolumn(2,Animation[i]);
+  19   3                              MatrixLED_showcolumn(3,Animation[i+1]);
+  20   3                              MatrixLED_showcolumn(4,Animation[i+2]);
+  21   3                              MatrixLED_showcolumn(5,Animation[i+3]);
+  22   3                              MatrixLED_showcolumn(6,Animation[i+4]);
+  23   3                              MatrixLED_showcolumn(7,Animation[i+5]);
+  24   3                              MatrixLED_showcolumn(8,Animation[i+6]);
+  25   3                              k++;
+  26   3                      }
+  27   2                      if(i==25)
+  28   2                              i=0;
+  29   2              }
+  30   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    132    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =     34    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
