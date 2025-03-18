@@ -1,0 +1,71 @@
+C51 COMPILER V9.54   MAIN                                                                  03/18/2025 13:45:42 PAGE 1   
+
+
+C51 COMPILER V9.54, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN .\Objects\main.obj
+COMPILER INVOKED BY: F:\ApplicationFlies\Keil C51\C51\BIN\C51.EXE main.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRI
+                    -NT(.\Listings\main.lst) OBJECT(.\Objects\main.obj)
+
+line level    source
+
+   1          #include <REGX52.H>
+   2          #include "LCDtools/lcd1602.h"
+   3          #include "DS1302.h"
+   4          
+   5          unsigned char time[]={25,2,3,18,13,12,31};
+   6          unsigned char timegot[]={25,2,3,18,13,12,31};
+   7          
+   8          void main()
+   9          {
+  10   1              lcd1602_init();
+  11   1              DS1302_init();
+  12   1              lcd1602_show_string(0,0,"Time:");
+  13   1              Write(0x8E,0x00);//取消写保护
+  14   1              Delay1ms();
+  15   1              Writetime(time);
+  16   1              while(1)
+  17   1              {
+  18   2                      Readtime(timegot);
+  19   2                      lcd1602_show_string(6,0,"20");
+  20   2                      lcd1602_show_unsigned_char_time(8,0,timegot[0]);
+  21   2                      lcd1602_show_string(10,0,"/");
+  22   2                      lcd1602_show_unsigned_char_time(11,0,timegot[2]);
+  23   2                      lcd1602_show_string(13,0,"/");
+  24   2                      lcd1602_show_unsigned_char_time(14,0,timegot[3]);
+  25   2                      lcd1602_show_unsigned_char_time(0,1,timegot[4]);
+  26   2                      lcd1602_show_string(2,1,":");
+  27   2                      lcd1602_show_unsigned_char_time(3,1,timegot[5]);
+  28   2                      lcd1602_show_string(5,1,":");
+  29   2                      lcd1602_show_unsigned_char_time(6,1,timegot[6]);
+  30   2                      if(timegot[1]==1)
+  31   2                              lcd1602_show_string(9,1,"Mon");
+  32   2                      if(timegot[1]==2)
+  33   2                              lcd1602_show_string(9,1,"Tues");
+  34   2                      if(timegot[1]==3)
+  35   2                              lcd1602_show_string(9,1,"Wed");
+  36   2                      if(timegot[1]==4)
+  37   2                              lcd1602_show_string(9,1,"THURS");
+  38   2                      if(timegot[1]==5)
+  39   2                              lcd1602_show_string(9,1,"FRI");
+  40   2                      if(timegot[1]==6)
+  41   2                              lcd1602_show_string(9,1,"SAT");
+  42   2                      if(timegot[1]==7)
+  43   2                              lcd1602_show_string(9,1,"SUN");
+  44   2              }
+  45   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    298    ----
+   CONSTANT SIZE    =     44    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =     14    ----
+   IDATA SIZE       =   ----    ----
+C51 COMPILER V9.54   MAIN                                                                  03/18/2025 13:45:42 PAGE 2   
+
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
