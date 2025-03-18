@@ -1,0 +1,152 @@
+C51 COMPILER V9.54   DS1302                                                                03/18/2025 15:20:30 PAGE 1   
+
+
+C51 COMPILER V9.54, COMPILATION OF MODULE DS1302
+OBJECT MODULE PLACED IN .\Objects\DS1302.obj
+COMPILER INVOKED BY: F:\ApplicationFlies\Keil C51\C51\BIN\C51.EXE DS1302\DS1302.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTE
+                    -XTEND PRINT(.\Listings\DS1302.lst) OBJECT(.\Objects\DS1302.obj)
+
+line level    source
+
+   1          #include "DS1302/DS1302.h"
+   2          #include <REGX52.H>
+   3          
+   4          sbit SCLK=P3^6;
+   5          sbit IO=P3^4;
+   6          sbit CE=P3^5;
+   7          
+   8          void DS1302_init()
+   9          {
+  10   1              CE=0;
+  11   1              SCLK=0;
+  12   1      }
+  13          
+  14          void Write(unsigned char command,unsigned char val)
+  15          {
+  16   1              unsigned char i=0;
+  17   1              CE=1;
+  18   1              for(i=0;i<8;i++)
+  19   1              {
+  20   2                      IO=command&(0x01<<i);
+  21   2                      SCLK=1;
+  22   2                      SCLK=0;
+  23   2              }
+  24   1              for(i=0;i<8;i++)
+  25   1              {
+  26   2                      IO=val&(0x01<<i);
+  27   2                      SCLK=1;
+  28   2                      SCLK=0;
+  29   2              }
+  30   1              CE=0;
+  31   1              IO=0;
+  32   1      }
+  33          
+  34          unsigned char Read(unsigned char command)
+  35          {
+  36   1              unsigned char val=0x00;
+  37   1              unsigned char i=0;
+  38   1              CE=1;
+  39   1              IO=0;
+  40   1              for(i=0;i<8;i++)
+  41   1              {
+  42   2                      IO=command&(0x01<<i);
+  43   2                      SCLK=0;
+  44   2                      SCLK=1;
+  45   2              }
+  46   1              for(i=0;i<8;i++)
+  47   1              {
+  48   2                      SCLK=1;
+  49   2                      SCLK=0;
+  50   2                      if(IO)
+  51   2                      {
+  52   3                              val|=(0x01<<i);
+  53   3                      }
+  54   2              }
+C51 COMPILER V9.54   DS1302                                                                03/18/2025 15:20:30 PAGE 2   
+
+  55   1              SCLK=0;
+  56   1              CE=0;
+  57   1              IO=0;
+  58   1              return val;
+  59   1      }
+  60          
+  61          unsigned char BCD2Hex(unsigned char input)
+  62          {
+  63   1              unsigned char output;
+  64   1              output=(input/16)*10+input%16;
+  65   1              return output;
+  66   1      }
+  67          
+  68          unsigned char Hex2BCD(unsigned char input)
+  69          {
+  70   1              unsigned char output;
+  71   1              output=(input/10)*16+input%10;
+  72   1              return output;
+  73   1      }
+  74          
+  75          void Delay1ms(void)     //@11.0592MHz
+  76          {
+  77   1              unsigned char data i, j;
+  78   1              i = 11;
+  79   1              j = 190;
+  80   1              do
+  81   1              {
+  82   2                      while (--j);
+  83   2              } while (--i);
+  84   1      }
+  85          
+  86          void Writetime(unsigned char* input)
+  87          {
+  88   1              Write(0x8E,0x00);//取消写保护
+  89   1              Delay1ms();
+  90   1              Write(0x8C,Hex2BCD(input[0]));
+  91   1              Delay1ms();
+  92   1              Write(0x8A,Hex2BCD(input[1]));
+  93   1              Delay1ms();
+  94   1              Write(0x88,Hex2BCD(input[2]));
+  95   1              Delay1ms();
+  96   1              Write(0x86,Hex2BCD(input[3]));
+  97   1              Delay1ms();
+  98   1              Write(0x84,Hex2BCD(input[4]));
+  99   1              Delay1ms();
+ 100   1              Write(0x82,Hex2BCD(input[5]));
+ 101   1              Delay1ms();
+ 102   1              Write(0x80,Hex2BCD(input[6]));
+ 103   1              Delay1ms();
+ 104   1              Write(0x8E,0x80);//写保护
+ 105   1              Delay1ms();
+ 106   1      }
+ 107          
+ 108          void Readtime(unsigned char* output)
+ 109          {
+ 110   1              output[0]=BCD2Hex(Read(0x8D));
+ 111   1              Delay1ms();
+ 112   1              output[1]=BCD2Hex(Read(0x8B));
+ 113   1              Delay1ms();
+ 114   1              output[2]=BCD2Hex(Read(0x89));
+ 115   1              Delay1ms();
+ 116   1              output[3]=BCD2Hex(Read(0x87));
+C51 COMPILER V9.54   DS1302                                                                03/18/2025 15:20:30 PAGE 3   
+
+ 117   1              Delay1ms();
+ 118   1              output[4]=BCD2Hex(Read(0x85));
+ 119   1              Delay1ms();
+ 120   1              output[5]=BCD2Hex(Read(0x83));
+ 121   1              Delay1ms();
+ 122   1              output[6]=BCD2Hex(Read(0x81));
+ 123   1              Delay1ms();
+ 124   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    535    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----       6
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
