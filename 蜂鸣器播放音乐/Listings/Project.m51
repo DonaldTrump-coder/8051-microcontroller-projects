@@ -1,0 +1,174 @@
+BL51 BANKED LINKER/LOCATER V6.22                                                        03/19/2025  13:59:44  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.22, INVOKED BY:
+F:\APPLICATIONFLIES\KEIL C51\C51\BIN\BL51.EXE .\Objects\main.obj TO .\Objects\Project PRINT (.\Listings\Project.m51) RAM
+>> SIZE (256)
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  .\Objects\main.obj (MAIN)
+  F:\APPLICATIONFLIES\KEIL C51\C51\LIB\C51S.LIB (?C_STARTUP)
+
+
+LINK MAP OF MODULE:  .\Objects\Project (MAIN)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            DATA    0008H     0001H     UNIT         ?DT?MAIN
+            IDATA   0009H     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+                    0003H     0008H                  *** GAP ***
+            CODE    000BH     0003H     ABSOLUTE     
+            CODE    000EH     00CAH     UNIT         ?CO?MAIN
+            CODE    00D8H     0050H     UNIT         ?PR?TIMER0_ROUTINE?MAIN
+            CODE    0128H     001BH     UNIT         ?PR?MAIN?MAIN
+            CODE    0143H     0017H     UNIT         ?PR?TIMER0_INIT?MAIN
+            CODE    015AH     0017H     UNIT         ?PR?_DELAY31MS?MAIN
+            CODE    0171H     000CH     UNIT         ?C_C51STARTUP
+            CODE    017DH     0009H     UNIT         ?PR?DELAY5MS?MAIN
+
+
+
+OVERLAY MAP OF MODULE:   .\Objects\Project (MAIN)
+
+
+SEGMENT
+  +--> CALLED SEGMENT
+---------------------
+?PR?TIMER0_ROUTINE?MAIN
+  +--> ?CO?MAIN
+
+*** NEW ROOT ***************************************************
+
+?C_C51STARTUP
+  +--> ?PR?MAIN?MAIN
+
+?PR?MAIN?MAIN
+  +--> ?PR?TIMER0_INIT?MAIN
+  +--> ?CO?MAIN
+  +--> ?PR?_DELAY31MS?MAIN
+  +--> ?PR?DELAY5MS?MAIN
+
+BL51 BANKED LINKER/LOCATER V6.22                                                      03/19/2025  13:59:44  PAGE 2
+
+
+
+
+SYMBOL TABLE OF MODULE:  .\Objects\Project (MAIN)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        MAIN
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  C:00D8H         PUBLIC        Timer0_Routine
+  D:00A0H         PUBLIC        P2
+  D:0008H         PUBLIC        select
+  C:0058H         PUBLIC        Music
+  B:00A0H.5       PUBLIC        Buzzer
+  B:00A8H.7       PUBLIC        EA
+  C:017DH         PUBLIC        Delay5ms
+  C:000EH         PUBLIC        Freq
+  C:0098H         PUBLIC        times
+  C:0128H         PUBLIC        main
+  C:0143H         PUBLIC        Timer0_Init
+  D:0089H         PUBLIC        TMOD
+  C:015AH         PUBLIC        _Delay31ms
+  B:00A8H.1       PUBLIC        ET0
+  B:0088H.5       PUBLIC        TF0
+  D:008CH         PUBLIC        TH0
+  D:008AH         PUBLIC        TL0
+  B:00B8H.1       PUBLIC        PT0
+  B:0088H.4       PUBLIC        TR0
+  -------         PROC          TIMER0_INIT
+  C:0143H         LINE#         66
+  C:0143H         LINE#         67
+  C:0143H         LINE#         68
+  C:0146H         LINE#         69
+  C:0149H         LINE#         70
+  C:014CH         LINE#         71
+  C:014FH         LINE#         72
+  C:0151H         LINE#         73
+  C:0153H         LINE#         74
+  C:0155H         LINE#         75
+  C:0157H         LINE#         76
+  C:0159H         LINE#         77
+  -------         ENDPROC       TIMER0_INIT
+  -------         PROC          TIMER0_ROUTINE
+  C:00D8H         LINE#         79
+  C:00E7H         LINE#         81
+  C:0101H         LINE#         82
+  C:0104H         LINE#         83
+  C:0119H         LINE#         84
+  C:0119H         LINE#         85
+  C:011BH         LINE#         86
+  C:011BH         LINE#         87
+  -------         ENDPROC       TIMER0_ROUTINE
+  -------         PROC          DELAY5MS
+  -------         DO            
+  D:0007H         SYMBOL        i
+  D:0006H         SYMBOL        j
+  -------         ENDDO         
+BL51 BANKED LINKER/LOCATER V6.22                                                      03/19/2025  13:59:44  PAGE 3
+
+
+  C:017DH         LINE#         89
+  C:017DH         LINE#         90
+  C:017DH         LINE#         93
+  C:017FH         LINE#         94
+  C:0181H         LINE#         96
+  C:0181H         LINE#         97
+  C:0183H         LINE#         98
+  C:0185H         LINE#         99
+  -------         ENDPROC       DELAY5MS
+  -------         PROC          _DELAY31MS
+  D:0007H         SYMBOL        time
+  -------         DO            
+  D:0005H         SYMBOL        i
+  D:0004H         SYMBOL        j
+  D:0003H         SYMBOL        k
+  D:0006H         SYMBOL        h
+  -------         ENDDO         
+  C:015AH         LINE#         101
+  C:015AH         LINE#         102
+  C:015AH         LINE#         105
+  C:0161H         LINE#         106
+  C:0161H         LINE#         107
+  C:0163H         LINE#         108
+  C:0165H         LINE#         109
+  C:0167H         LINE#         111
+  C:0167H         LINE#         113
+  C:0167H         LINE#         114
+  C:0169H         LINE#         115
+  C:016BH         LINE#         116
+  C:016DH         LINE#         117
+  C:0170H         LINE#         118
+  -------         ENDPROC       _DELAY31MS
+  -------         PROC          MAIN
+  C:0128H         LINE#         121
+  C:0128H         LINE#         122
+  C:0128H         LINE#         123
+  C:012BH         LINE#         124
+  C:012EH         LINE#         125
+  C:012EH         LINE#         126
+  C:012EH         LINE#         127
+  C:0138H         LINE#         128
+  C:013AH         LINE#         129
+  C:013CH         LINE#         130
+  C:013FH         LINE#         131
+  C:0141H         LINE#         132
+  -------         ENDPROC       MAIN
+  -------         ENDMOD        MAIN
+
+Program Size: data=10.0 xdata=0 code=382
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)
