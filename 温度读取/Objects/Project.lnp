@@ -1,0 +1,7 @@
+".\Objects\main.obj",
+".\Objects\public.obj",
+".\Objects\lcd1602.obj",
+".\Objects\One_bus.obj",
+".\Objects\DS18B20.obj" 
+TO ".\Objects\Project" 
+PRINT(".\Listings\Project.m51") RAMSIZE(256) 
