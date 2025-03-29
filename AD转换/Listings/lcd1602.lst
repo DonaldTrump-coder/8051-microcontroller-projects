@@ -1,0 +1,159 @@
+C51 COMPILER V9.54   LCD1602                                                               03/28/2025 17:47:56 PAGE 1   
+
+
+C51 COMPILER V9.54, COMPILATION OF MODULE LCD1602
+OBJECT MODULE PLACED IN .\Objects\lcd1602.obj
+COMPILER INVOKED BY: F:\ApplicationFlies\Keil C51\C51\BIN\C51.EXE LCDtools\lcd1602.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJE
+                    -CTEXTEND PRINT(.\Listings\lcd1602.lst) OBJECT(.\Objects\lcd1602.obj)
+
+line level    source
+
+   1          #include <REGX52.H>
+   2          #include "LCD1602.h"
+   3          
+   4          sbit LCD_RS=P2^6;
+   5          sbit LCD_RW=P2^5;
+   6          sbit LCD_E=P2^7;
+   7          
+   8          void Delay1ms(void)     //@11.0592MHz
+   9          {
+  10   1              unsigned char data i, j;
+  11   1      
+  12   1              i = 2;
+  13   1              j = 199;
+  14   1              do
+  15   1              {
+  16   2                      while (--j);
+  17   2              } while (--i);
+  18   1      }
+  19          
+  20          void LCD_writecmd(unsigned char cmd)
+  21          {
+  22   1              LCD_RS=0;
+  23   1              LCD_RW=0;
+  24   1              P0=cmd;
+  25   1              LCD_E=1;
+  26   1              Delay1ms();
+  27   1              LCD_E=0;
+  28   1              Delay1ms();
+  29   1      }
+  30          
+  31          void LCD_writedata(unsigned char val)
+  32          {
+  33   1              LCD_RS=1;
+  34   1              LCD_RW=0;
+  35   1              P0=val;
+  36   1              LCD_E=1;
+  37   1              Delay1ms();
+  38   1              LCD_E=0;
+  39   1              Delay1ms();
+  40   1      }
+  41          
+  42          void LCD_init()
+  43          {
+  44   1              LCD_writecmd(0x38);//8位数据接口
+  45   1              LCD_writecmd(0x0C);//显示开，光标关，闪烁关
+  46   1              LCD_writecmd(0x06);//读写操作后，光标自动加一
+  47   1              LCD_writecmd(0x01);//清屏
+  48   1      }
+  49          
+  50          void LCD_showchar(unsigned char x,unsigned char y,unsigned char val)
+  51          {
+  52   1              LCD_setcursor(x,y);
+  53   1              LCD_writedata(val);
+  54   1      }
+C51 COMPILER V9.54   LCD1602                                                               03/28/2025 17:47:56 PAGE 2   
+
+  55          
+  56          void LCD_showstring(unsigned char x,unsigned char y,unsigned char* val)
+  57          {
+  58   1              unsigned char strp=0;
+  59   1              LCD_setcursor(x,y);
+  60   1              while(val[strp]!='\0')
+  61   1              {
+  62   2                      LCD_writedata(val[strp]);
+  63   2                      strp++;
+  64   2              }
+  65   1      }
+  66          
+  67          void LCD_setcursor(unsigned char x,unsigned char y)
+  68          {
+  69   1              if(y==1)
+  70   1              {
+  71   2                      LCD_writecmd(0x80|(x-1));
+  72   2              }
+  73   1              else if(y==2)
+  74   1              {
+  75   2                      LCD_writecmd(0xC0|(x-1));
+  76   2              }
+  77   1      }
+  78          
+  79          void LCD_shownum(unsigned char x,unsigned char y,unsigned int val,unsigned char len)
+  80          {
+  81   1              unsigned int tens=1;
+  82   1              unsigned char i;
+  83   1              unsigned char num;
+  84   1              for(i=0;i<len-1;i++)
+  85   1                      tens=tens*10;
+  86   1              LCD_setcursor(x,y);
+  87   1              for(i=0;i<len;i++)
+  88   1              {
+  89   2                      num=(unsigned char)((val/tens)%10);
+  90   2                      LCD_writedata(num+'0');
+  91   2                      tens=tens/10;
+  92   2              }
+  93   1      }
+  94          
+  95          void LCD_showsignednum(unsigned char x,unsigned char y,int val,unsigned char len)
+  96          {
+  97   1              unsigned int num;
+  98   1              LCD_setcursor(x,y);
+  99   1              if(val>=0)
+ 100   1              {
+ 101   2                      LCD_writedata('+');
+ 102   2                      num=val;
+ 103   2              }
+ 104   1              else
+ 105   1              {
+ 106   2                      LCD_writedata('-');
+ 107   2                      num=-val;
+ 108   2              }
+ 109   1              LCD_shownum(x+1,y,num,len);
+ 110   1      }
+ 111          
+ 112          void LCD_showhex(unsigned char x,unsigned char y,unsigned char val)
+ 113          {
+ 114   1              unsigned int hex=16;
+ 115   1              unsigned char i;
+ 116   1              unsigned char num;
+C51 COMPILER V9.54   LCD1602                                                               03/28/2025 17:47:56 PAGE 3   
+
+ 117   1              LCD_setcursor(x,y);
+ 118   1              for(i=0;i<2;i++)
+ 119   1              {
+ 120   2                      num=(unsigned char)((val/hex)%16);
+ 121   2                      if(num<10)
+ 122   2                      {
+ 123   3                              LCD_writedata(num+'0');
+ 124   3                      }
+ 125   2                      else
+ 126   2                      {
+ 127   3                              LCD_writedata(num+'A'-10);
+ 128   3                      }
+ 129   2                      hex=hex/16;
+ 130   2              }
+ 131   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    350    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----      19
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
